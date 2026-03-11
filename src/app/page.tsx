@@ -49,11 +49,6 @@ export default function BirthdayPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square light-rays opacity-30 pointer-events-none z-[-1]" />
           
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary animate-sparkle">
-              <Gift className="w-5 h-5" />
-              <span className="text-sm font-medium tracking-[0.2em] uppercase font-headline">Premium Milestone</span>
-            </div>
-            
             <div className="relative group">
               <h1 className="text-7xl md:text-9xl font-headline font-black gold-3d-text leading-[1.1] gold-shimmer pb-4">
                 Happy Birthday
