@@ -14,7 +14,6 @@ export default function BirthdayPage() {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isBlownOut, setIsBlownOut] = useState(false);
   const [showCelebrationBtn, setShowCelebrationBtn] = useState(false);
-  const blowSoundRef = useRef<HTMLAudioElement | null>(null);
   const router = useRouter();
 
   const handleReveal = () => {
@@ -24,16 +23,10 @@ export default function BirthdayPage() {
   const handleBlownOut = () => {
     setIsBlownOut(true);
     
-    // Play blowing sound effect
-    if (!blowSoundRef.current) {
-      blowSoundRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
-    }
-    blowSoundRef.current.play().catch(() => {});
-
-    // Show final button after celebration starts
+    // Show final button after the grand fireworks celebration starts
     setTimeout(() => {
       setShowCelebrationBtn(true);
-    }, 2000);
+    }, 2500);
   };
 
   const handleReset = () => {
@@ -80,7 +73,7 @@ export default function BirthdayPage() {
                 <div className="flex items-center justify-center gap-4">
                   <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary/50" />
                   <p className="text-sm tracking-[0.3em] uppercase text-muted-foreground/60">
-                    Scratch below for a surprise
+                    A surprise is waiting... Scratch below!
                   </p>
                   <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-primary/50" />
                 </div>
@@ -89,8 +82,9 @@ export default function BirthdayPage() {
           </div>
         </section>
 
-        {/* Scratch Card Section */}
+        {/* Interactive Content Section */}
         <section className="w-full flex flex-col items-center gap-32 md:gap-40">
+          {/* Scratch Card Area */}
           <div className="relative w-full max-w-md">
             <ScratchCard 
               onReveal={handleReveal}
@@ -98,16 +92,17 @@ export default function BirthdayPage() {
               name="Pooja"
             />
             
-            {/* Surprise Overlay Text */}
+            {/* Surprise Reveal Overlay */}
             {isBlownOut && (
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none z-20">
-                <h2 className="text-2xl md:text-4xl font-display font-bold gold-shimmer animate-surprise gold-text-glow px-4 leading-tight">
+              <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none z-20 px-4">
+                <h2 className="text-2xl md:text-4xl font-display font-bold gold-shimmer animate-surprise gold-text-glow leading-tight">
                   🎉 Happy Birthday! Your Wish Has Been Unlocked! 🎉
                 </h2>
               </div>
             )}
           </div>
           
+          {/* Birthday Cake Section - Appears after scratch reveal */}
           <div className={`transition-all duration-1000 ${isRevealed ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'}`}>
             <BirthdayCake 
               isLit={isRevealed} 
@@ -117,15 +112,15 @@ export default function BirthdayPage() {
             />
           </div>
 
-          {/* Final Call to Action Button */}
+          {/* Celebration Dashboard Access */}
           {showCelebrationBtn && (
             <div className="animate-fade-in animate-float pt-10">
               <Button 
                 onClick={() => router.push('/dashboard')}
-                className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-lg font-headline font-bold shadow-2xl gold-glow hover:scale-105 transition-transform group"
+                className="bg-primary text-primary-foreground rounded-full px-10 py-7 text-lg font-headline font-bold shadow-2xl gold-glow hover:scale-105 transition-transform group"
               >
-                <LayoutDashboard className="w-6 h-6 mr-2 group-hover:rotate-12 transition-transform" />
-                View All Celebrations
+                <LayoutDashboard className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
+                Manage All Birthdays
               </Button>
             </div>
           )}
@@ -137,17 +132,18 @@ export default function BirthdayPage() {
             <div className="flex items-center gap-3 text-primary">
               <Heart className="w-6 h-6 fill-primary animate-pulse" />
               <span className="font-headline text-xl italic tracking-widest gold-text-glow">
-                Made with ❤️ for someone special
+                Made with ❤️ for Pooja
               </span>
               <Heart className="w-6 h-6 fill-primary animate-pulse" />
             </div>
             <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground opacity-40">
-              © 2024 Premium Natal Celebrations • Luxury Edition
+              © 2025 Premium Natal Celebrations • Luxury Edition
             </p>
           </div>
         </footer>
       </main>
 
+      {/* Atmosphere Glows */}
       <div className="fixed top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-accent/5 blur-[150px] rounded-full pointer-events-none" />
     </div>
