@@ -1,54 +1,29 @@
-
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { ScratchCard } from '@/components/birthday/ScratchCard';
 import { FloatingElements } from '@/components/birthday/FloatingElements';
 import { BirthdayCake } from '@/components/birthday/BirthdayCake';
 import { Firecrackers } from '@/components/birthday/Firecrackers';
 import { Button } from '@/components/ui/button';
-import { Gift, VolumeX, Volume2, Heart, Sparkles, LayoutDashboard } from 'lucide-react';
+import { Gift, Heart, Sparkles, LayoutDashboard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function BirthdayPage() {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isBlownOut, setIsBlownOut] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showCelebrationBtn, setShowCelebrationBtn] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const blowSoundRef = useRef<HTMLAudioElement | null>(null);
   const router = useRouter();
 
-  const toggleMusic = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-      audioRef.current.loop = true;
-    }
-
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
   const handleReveal = () => {
     setIsRevealed(true);
-    if (!isPlaying) {
-      if (!audioRef.current) {
-        audioRef.current = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-        audioRef.current.loop = true;
-      }
-      audioRef.current.play().catch(() => {});
-      setIsPlaying(true);
-    }
   };
 
   const handleBlownOut = () => {
     setIsBlownOut(true);
     
-    // Play blowing sound
+    // Play blowing sound effect
     if (!blowSoundRef.current) {
       blowSoundRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
     }
@@ -73,16 +48,6 @@ export default function BirthdayPage() {
       {/* Luxury Border Frame */}
       <div className="fixed inset-4 border-2 border-primary/20 pointer-events-none z-50 rounded-3xl" />
       <div className="fixed inset-6 border border-primary/10 pointer-events-none z-50 rounded-[2.5rem]" />
-
-      {/* Music Toggle */}
-      <Button 
-        variant="outline" 
-        size="icon" 
-        onClick={toggleMusic}
-        className="fixed top-8 right-8 z-[60] rounded-full bg-background/50 backdrop-blur-md border-primary/30 text-primary gold-glow"
-      >
-        {isPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-      </Button>
 
       <main className="relative z-10 w-full max-w-4xl px-6 py-20 flex flex-col items-center gap-16">
         
