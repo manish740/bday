@@ -1,8 +1,11 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { ScratchCard } from '@/components/birthday/ScratchCard';
 import { FloatingElements } from '@/components/birthday/FloatingElements';
+import { BirthdayCake } from '@/components/birthday/BirthdayCake';
+import { Firecrackers } from '@/components/birthday/Firecrackers';
 import { Button } from '@/components/ui/button';
 import { Gift, Music, VolumeX, Volume2, Heart, Share2, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -45,6 +48,7 @@ export default function BirthdayPage() {
   return (
     <div className="relative min-h-screen bg-background flex flex-col items-center selection:bg-primary/20">
       <FloatingElements />
+      <Firecrackers active={isRevealed} />
 
       {/* Luxury Border Frame */}
       <div className="fixed inset-4 border-2 border-primary/20 pointer-events-none z-50 rounded-3xl" />
@@ -77,11 +81,16 @@ export default function BirthdayPage() {
         </section>
 
         {/* Scratch Card Section */}
-        <section className="w-full flex justify-center">
+        <section className="w-full flex flex-col items-center gap-12">
           <ScratchCard 
             onReveal={handleReveal}
             message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday!"
           />
+          
+          {/* Birthday Cake Section - Appears/Animates on reveal */}
+          <div className={`transition-all duration-1000 ${isRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <BirthdayCake isLit={isRevealed} />
+          </div>
         </section>
 
         {/* Photo Section */}
