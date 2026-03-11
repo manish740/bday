@@ -1,131 +1,168 @@
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { ScratchCard } from '@/components/birthday/ScratchCard';
+import { FloatingElements } from '@/components/birthday/FloatingElements';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Gift, Heart, Sparkles, Check } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Gift, Music, VolumeX, Volume2, Heart, Share2, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
-export default function LandingPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const router = useRouter();
+export default function BirthdayPage() {
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate auth
-    router.push('/dashboard');
+  const toggleMusic = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+      audioRef.current.loop = true;
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleReveal = () => {
+    setIsRevealed(true);
+    // Auto-play music on first interaction if not already playing
+    if (!isPlaying && audioRef.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const shareWishes = () => {
+    const text = encodeURIComponent("Wishing you a very Happy Birthday! Check out this special surprise I made for you: " + window.location.href);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-background overflow-hidden">
-      {/* Left Column: Visual/Marketing */}
-      <div className="hidden md:flex flex-1 relative bg-accent overflow-hidden">
-        <Image 
-          src="https://picsum.photos/seed/natalhero/1000/1200" 
-          alt="Birthday Celebration" 
-          fill 
-          className="object-cover opacity-40 mix-blend-overlay"
-          priority
-          data-ai-hint="birthday celebration"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-accent via-accent/50 to-transparent" />
-        <div className="relative z-10 flex flex-col justify-end p-12 text-white space-y-6">
-          <div className="flex items-center gap-2">
-            <Gift className="w-10 h-10 text-primary" />
-            <h1 className="text-4xl font-headline font-bold">Natal Reminders</h1>
-          </div>
-          <h2 className="text-5xl font-headline font-bold leading-tight">Celebrate every milestone with heart.</h2>
-          <div className="space-y-4 text-accent-foreground">
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-primary" />
-              <span>Intelligent tracking for all your contacts</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-primary" />
-              <span>AI-powered personalized birthday wishes</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Check className="w-5 h-5 text-primary" />
-              <span>Thoughtful reminders for special moments</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="relative min-h-screen bg-background flex flex-col items-center selection:bg-primary/20">
+      <FloatingElements />
 
-      {/* Right Column: Auth Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-background relative">
-        <div className="absolute top-8 left-8 md:hidden flex items-center gap-2">
-          <Gift className="w-6 h-6 text-primary" />
-          <span className="font-headline text-xl font-bold text-accent">Natal Reminders</span>
-        </div>
+      {/* Luxury Border Frame */}
+      <div className="fixed inset-4 border-2 border-primary/20 pointer-events-none z-50 rounded-3xl" />
+      <div className="fixed inset-6 border border-primary/10 pointer-events-none z-50 rounded-[2.5rem]" />
+
+      {/* Music Toggle */}
+      <Button 
+        variant="outline" 
+        size="icon" 
+        onClick={toggleMusic}
+        className="fixed top-8 right-8 z-[60] rounded-full bg-background/50 backdrop-blur-md border-primary/30 text-primary gold-glow"
+      >
+        {isPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+      </Button>
+
+      <main className="relative z-10 w-full max-w-4xl px-6 py-20 flex flex-col items-center gap-16">
         
-        <div className="w-full max-w-sm space-y-8 animate-fade-in">
-          <div className="text-center md:text-left space-y-2">
-            <h3 className="text-3xl font-headline font-bold text-accent">Welcome Back</h3>
-            <p className="text-muted-foreground">Log in to manage your birthday list.</p>
+        {/* Hero Section */}
+        <section className="text-center space-y-6 animate-fade-in">
+          <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary animate-sparkle">
+            <Gift className="w-5 h-5" />
+            <span className="text-sm font-medium tracking-widest uppercase">Special Milestone</span>
           </div>
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Email Address</label>
-              <Input 
-                type="email" 
-                placeholder="hello@example.com" 
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="rounded-xl border-primary/20"
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="text-sm font-medium">Password</label>
-                <button type="button" className="text-xs text-primary hover:underline">Forgot?</button>
-              </div>
-              <Input 
-                type="password" 
-                placeholder="••••••••" 
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-                className="rounded-xl border-primary/20"
-              />
-            </div>
-            <Button type="submit" className="w-full bg-accent text-accent-foreground rounded-xl h-12 text-lg font-medium shadow-lg hover:shadow-xl transition-all">
-              Sign In
-            </Button>
-          </form>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-muted" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="rounded-xl border-primary/20">Google</Button>
-            <Button variant="outline" className="rounded-xl border-primary/20">Apple</Button>
-          </div>
-
-          <p className="text-center text-sm text-muted-foreground">
-            Don't have an account? <button className="text-primary font-bold hover:underline">Sign up for free</button>
+          <h1 className="text-6xl md:text-8xl font-headline font-bold text-accent gold-text-glow leading-tight">
+            🎉 Happy Birthday 🎂
+          </h1>
+          <p className="text-xl md:text-2xl font-body italic text-muted-foreground max-w-xl mx-auto">
+            "A special surprise is waiting for you… Scratch below to reveal it!"
           </p>
-        </div>
+        </section>
 
-        {/* Decorative elements */}
-        <div className="absolute bottom-8 right-8 opacity-20 hidden lg:block">
-          <Heart className="w-24 h-24 text-primary" />
-        </div>
-        <div className="absolute top-20 right-20 opacity-10 hidden lg:block">
-          <Sparkles className="w-16 h-16 text-accent" />
-        </div>
-      </div>
+        {/* Scratch Card Section */}
+        <section className="w-full flex justify-center">
+          <ScratchCard 
+            onReveal={handleReveal}
+            message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday!"
+          />
+        </section>
+
+        {/* Photo Section */}
+        <section className="w-full space-y-8 text-center animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-3xl font-headline text-accent">Cherished Moments</h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+          </div>
+
+          <div className="relative p-4 luxury-border rounded-[2rem] gold-glow max-w-2xl mx-auto">
+            <Carousel className="w-full">
+              <CarouselContent>
+                {PlaceHolderImages.filter(img => img.id.startsWith('birthday-')).map((img, idx) => (
+                  <CarouselItem key={idx}>
+                    <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
+                      <Image 
+                        src={img.imageUrl} 
+                        alt={img.description} 
+                        fill 
+                        className="object-cover"
+                        data-ai-hint={img.imageHint}
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="hidden md:block">
+                <CarouselPrevious className="bg-background/50 border-primary/30 text-primary -left-12" />
+                <CarouselNext className="bg-background/50 border-primary/30 text-primary -right-12" />
+              </div>
+            </Carousel>
+          </div>
+        </section>
+
+        {/* Actions */}
+        <section className="flex flex-wrap justify-center gap-4 py-10">
+          <Button 
+            onClick={shareWishes}
+            className="rounded-full px-8 h-14 bg-accent text-accent-foreground font-headline text-xl gap-3 gold-glow hover:scale-105 transition-transform"
+          >
+            <MessageCircle className="w-6 h-6" />
+            Send Birthday Wishes
+          </Button>
+          <Button 
+            variant="outline"
+            className="rounded-full px-8 h-14 border-primary/30 text-primary font-headline text-xl gap-3 hover:bg-primary/10 transition-colors"
+            onClick={() => {
+              if (navigator.share) {
+                navigator.share({
+                  title: 'Happy Birthday!',
+                  text: 'Check out this birthday card!',
+                  url: window.location.href,
+                });
+              }
+            }}
+          >
+            <Share2 className="w-6 h-6" />
+            Share Page
+          </Button>
+        </section>
+
+        {/* Footer */}
+        <footer className="pt-20 pb-10 text-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-2 text-primary">
+              <Heart className="w-5 h-5 fill-primary animate-sparkle" />
+              <span className="font-body text-lg italic opacity-80">
+                Made with love for someone special
+              </span>
+              <Heart className="w-5 h-5 fill-primary animate-sparkle" />
+            </div>
+            <p className="text-xs tracking-widest uppercase text-muted-foreground opacity-50">
+              © 2024 Premium Natal Celebrations
+            </p>
+          </div>
+        </footer>
+      </main>
+
+      {/* Decorative Background Glows */}
+      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/10 blur-[100px] rounded-full pointer-events-none" />
     </div>
   );
 }

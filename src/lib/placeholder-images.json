@@ -7,10 +7,22 @@
       "imageHint": "birthday celebration"
     },
     {
-      "id": "gift-box",
-      "description": "Minimalist gift box",
-      "imageUrl": "https://picsum.photos/seed/natal2/400/400",
-      "imageHint": "gift box"
+      "id": "birthday-1",
+      "description": "Luxury birthday vibes 1",
+      "imageUrl": "https://picsum.photos/seed/bday1/600/800",
+      "imageHint": "luxury party"
+    },
+    {
+      "id": "birthday-2",
+      "description": "Luxury birthday vibes 2",
+      "imageUrl": "https://picsum.photos/seed/bday2/600/800",
+      "imageHint": "cake champagne"
+    },
+    {
+      "id": "birthday-3",
+      "description": "Luxury birthday vibes 3",
+      "imageUrl": "https://picsum.photos/seed/bday3/600/800",
+      "imageHint": "celebration smile"
     }
   ]
 }

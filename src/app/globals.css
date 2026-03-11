@@ -1,54 +1,30 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Dusty Rose: #D18CA9 -> HSL(335, 41%, 68%) */
-    /* Light Rose Background: #F9EDF1 -> HSL(335, 45%, 96%) */
-    /* Deep Plum Accent: #6D2680 -> HSL(288, 54%, 33%) */
-    --background: 335 45% 96%;
-    --foreground: 288 40% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 288 40% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 288 40% 10%;
-    --primary: 335 41% 68%;
-    --primary-foreground: 335 45% 98%;
-    --secondary: 335 30% 90%;
-    --secondary-foreground: 288 54% 33%;
-    --muted: 335 20% 92%;
-    --muted-foreground: 335 20% 40%;
-    --accent: 288 54% 33%;
-    --accent-foreground: 335 45% 96%;
+    /* Luxury Dark Theme */
+    --background: 288 40% 4%;
+    --foreground: 45 30% 90%;
+    --card: 288 40% 6%;
+    --card-foreground: 45 30% 90%;
+    --popover: 288 40% 6%;
+    --popover-foreground: 45 30% 90%;
+    --primary: 45 60% 50%; /* Golden */
+    --primary-foreground: 288 40% 5%;
+    --secondary: 288 30% 12%;
+    --secondary-foreground: 45 60% 70%;
+    --muted: 288 20% 15%;
+    --muted-foreground: 45 20% 60%;
+    --accent: 45 60% 50%;
+    --accent-foreground: 288 40% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 335 20% 85%;
-    --input: 335 20% 85%;
-    --ring: 288 54% 33%;
-    --radius: 1rem;
-  }
-  .dark {
-    --background: 288 40% 5%;
-    --foreground: 335 45% 96%;
-    --card: 288 40% 8%;
-    --card-foreground: 335 45% 96%;
-    --popover: 288 40% 8%;
-    --popover-foreground: 335 45% 96%;
-    --primary: 335 41% 68%;
-    --primary-foreground: 288 40% 5%;
-    --secondary: 288 54% 20%;
-    --secondary-foreground: 335 41% 68%;
-    --muted: 288 40% 15%;
-    --muted-foreground: 335 20% 70%;
-    --accent: 335 41% 68%;
-    --accent-foreground: 288 40% 5%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 288 40% 20%;
-    --input: 288 40% 20%;
-    --ring: 335 41% 68%;
+    --border: 45 30% 20%;
+    --input: 45 30% 20%;
+    --ring: 45 60% 50%;
+    --radius: 1.5rem;
   }
 }
 
@@ -57,9 +33,44 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(109, 38, 128, 0.1) 0%, transparent 40%);
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
+}
+
+@layer utilities {
+  .gold-glow {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  }
+  .gold-text-glow {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+  .luxury-border {
+    border: 2px solid transparent;
+    background: linear-gradient(var(--card), var(--card)) padding-box,
+                linear-gradient(to right, #D4AF37, #F9EDF1, #D4AF37) border-box;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
 }
