@@ -131,7 +131,7 @@ export default function BirthdayPage() {
               <Sparkles className="w-6 h-6 fill-primary animate-pulse" />
             </div>
             <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground opacity-40">
-              © 2025 Premium Natal Celebrations • Luxury Edition
+              © 2026 Premium Natal Celebrations • Luxury Edition
             </p>
           </div>
         </footer>
