@@ -7,41 +7,73 @@ interface FirecrackersProps {
   active: boolean;
 }
 
+interface Explosion {
+  id: number;
+  x: number;
+  y: number;
+  color: string;
+  size: number;
+}
+
 export function Firecrackers({ active }: FirecrackersProps) {
-  const [explosions, setExplosions] = useState<{ id: number; x: number; y: number; color: string }[]>([]);
+  const [explosions, setExplosions] = useState<Explosion[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (active) {
-      // Play sound
+      // Audio setup
       if (!audioRef.current) {
         audioRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
       }
-      audioRef.current.volume = 0.4;
-      audioRef.current.play().catch(e => console.log('Audio play blocked', e));
+      audioRef.current.volume = 0.5;
 
-      // Generate random explosions
-      const interval = setInterval(() => {
-        const id = Date.now();
-        const colors = ['#D4AF37', '#F9EDF1', '#FFD700', '#FFA500'];
+      const colors = [
+        '#D4AF37', // Gold
+        '#FF3B3F', // Red
+        '#A020F0', // Purple
+        '#1E90FF', // Blue
+        '#F9EDF1'  // Sparkle White
+      ];
+
+      const createExplosion = () => {
+        const id = Date.now() + Math.random();
         const newExplosion = {
           id,
           x: 10 + Math.random() * 80, // %
-          y: 20 + Math.random() * 60, // %
+          y: 10 + Math.random() * 50, // %
           color: colors[Math.floor(Math.random() * colors.length)],
+          size: 1 + Math.random() * 2
         };
+
+        setExplosions(prev => [...prev, newExplosion]);
         
-        setExplosions(prev => [...prev.slice(-10), newExplosion]);
-        
-        // Cleanup after animation
+        // Play sound with slight variation
+        if (audioRef.current) {
+          const clone = audioRef.current.cloneNode() as HTMLAudioElement;
+          clone.volume = 0.3;
+          clone.play().catch(() => {});
+        }
+
         setTimeout(() => {
           setExplosions(prev => prev.filter(e => e.id !== id));
-        }, 1000);
-      }, 400);
+        }, 1500);
+      };
 
-      // Stop after 5 seconds
-      setTimeout(() => clearInterval(interval), 5000);
-      return () => clearInterval(interval);
+      // Initial burst
+      for(let i=0; i<3; i++) setTimeout(createExplosion, i * 200);
+
+      // Continuous fireworks
+      const interval = setInterval(createExplosion, 600);
+
+      // Stop after 8 seconds
+      const timeout = setTimeout(() => {
+        clearInterval(interval);
+      }, 8000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
     }
   }, [active]);
 
@@ -53,22 +85,36 @@ export function Firecrackers({ active }: FirecrackersProps) {
         <div
           key={exp.id}
           className="absolute transform -translate-x-1/2 -translate-y-1/2"
-          style={{ left: `${exp.x}%`, top: `${exp.y}%` }}
+          style={{ left: `${exp.x}%`, top: `${exp.y}%`, scale: exp.size }}
         >
           <div className="relative">
-            {/* Center flash */}
-            <div className="w-4 h-4 bg-white rounded-full animate-ping" />
+            {/* Core Flash */}
+            <div className="w-6 h-6 bg-white rounded-full animate-ping opacity-75" />
             
-            {/* Sparkles */}
-            {[...Array(12)].map((_, i) => (
+            {/* Firework Particles */}
+            {[...Array(24)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 rounded-full animate-firework-particle"
+                className="absolute w-1.5 h-1.5 rounded-full animate-firework-particle"
                 style={{
                   backgroundColor: exp.color,
-                  boxShadow: `0 0 10px ${exp.color}`,
-                  transform: `rotate(${i * 30}deg) translateY(-20px)`,
-                  animationDelay: `${Math.random() * 0.2}s`
+                  boxShadow: `0 0 15px ${exp.color}`,
+                  transform: `rotate(${i * 15}deg) translateY(-30px)`,
+                  animationDelay: `${Math.random() * 0.1}s`,
+                  animationDuration: `${1 + Math.random() * 0.5}s`
+                }}
+              />
+            ))}
+            
+            {/* Secondary Glitter */}
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={`sparkle-${i}`}
+                className="absolute w-1 h-1 bg-white rounded-full animate-sparkle"
+                style={{
+                  left: `${(Math.random() - 0.5) * 100}px`,
+                  top: `${(Math.random() - 0.5) * 100}px`,
+                  animationDelay: `${Math.random()}s`
                 }}
               />
             ))}

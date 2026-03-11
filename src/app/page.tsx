@@ -1,18 +1,21 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ScratchCard } from '@/components/birthday/ScratchCard';
 import { FloatingElements } from '@/components/birthday/FloatingElements';
 import { BirthdayCake } from '@/components/birthday/BirthdayCake';
 import { Firecrackers } from '@/components/birthday/Firecrackers';
 import { Button } from '@/components/ui/button';
-import { Gift, VolumeX, Volume2, Heart, Sparkles } from 'lucide-react';
+import { Gift, VolumeX, Volume2, Heart, Sparkles, LayoutDashboard } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function BirthdayPage() {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showCelebrationBtn, setShowCelebrationBtn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const router = useRouter();
 
   const toggleMusic = () => {
     if (!audioRef.current) {
@@ -34,10 +37,15 @@ export default function BirthdayPage() {
       audioRef.current.play();
       setIsPlaying(true);
     }
+    
+    // Show final button after fireworks have been going for a bit
+    setTimeout(() => {
+      setShowCelebrationBtn(true);
+    }, 4000);
   };
 
   return (
-    <div className="relative min-h-screen bg-background flex flex-col items-center selection:bg-primary/20">
+    <div className="relative min-h-screen bg-background flex flex-col items-center selection:bg-primary/20 overflow-x-hidden">
       <FloatingElements />
       <Firecrackers active={isRevealed} />
 
@@ -94,15 +102,39 @@ export default function BirthdayPage() {
 
         {/* Scratch Card Section */}
         <section className="w-full flex flex-col items-center gap-12">
-          <ScratchCard 
-            onReveal={handleReveal}
-            message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday,"
-            name="Pooja"
-          />
+          <div className="relative w-full max-w-md">
+            <ScratchCard 
+              onReveal={handleReveal}
+              message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday,"
+              name="Pooja"
+            />
+            
+            {/* Surprise Overlay Text */}
+            {isRevealed && (
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none z-20">
+                <h2 className="text-4xl md:text-5xl font-display font-bold gold-shimmer animate-surprise gold-text-glow">
+                  🎉 Surprise! Happy Birthday! 🎂
+                </h2>
+              </div>
+            )}
+          </div>
           
           <div className={`transition-all duration-1000 ${isRevealed ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}`}>
             <BirthdayCake isLit={isRevealed} />
           </div>
+
+          {/* Final Call to Action Button */}
+          {showCelebrationBtn && (
+            <div className="animate-fade-in animate-float pt-10">
+              <Button 
+                onClick={() => router.push('/dashboard')}
+                className="bg-primary text-primary-foreground rounded-full px-8 py-6 text-lg font-headline font-bold shadow-2xl gold-glow hover:scale-105 transition-transform group"
+              >
+                <LayoutDashboard className="w-6 h-6 mr-2 group-hover:rotate-12 transition-transform" />
+                View All Celebrations
+              </Button>
+            </div>
+          )}
         </section>
 
         {/* Footer */}
