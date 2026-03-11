@@ -12,9 +12,11 @@ import { useRouter } from 'next/navigation';
 
 export default function BirthdayPage() {
   const [isRevealed, setIsRevealed] = useState(false);
+  const [isBlownOut, setIsBlownOut] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showCelebrationBtn, setShowCelebrationBtn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const blowSoundRef = useRef<HTMLAudioElement | null>(null);
   const router = useRouter();
 
   const toggleMusic = () => {
@@ -33,21 +35,40 @@ export default function BirthdayPage() {
 
   const handleReveal = () => {
     setIsRevealed(true);
-    if (!isPlaying && audioRef.current) {
-      audioRef.current.play();
+    if (!isPlaying) {
+      if (!audioRef.current) {
+        audioRef.current = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+        audioRef.current.loop = true;
+      }
+      audioRef.current.play().catch(() => {});
       setIsPlaying(true);
     }
+  };
+
+  const handleBlownOut = () => {
+    setIsBlownOut(true);
     
-    // Show final button after fireworks have been going for a bit
+    // Play blowing sound
+    if (!blowSoundRef.current) {
+      blowSoundRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+    }
+    blowSoundRef.current.play().catch(() => {});
+
+    // Show final button after celebration starts
     setTimeout(() => {
       setShowCelebrationBtn(true);
-    }, 4000);
+    }, 2000);
+  };
+
+  const handleReset = () => {
+    setIsBlownOut(false);
+    setShowCelebrationBtn(false);
   };
 
   return (
     <div className="relative min-h-screen bg-background flex flex-col items-center selection:bg-primary/20 overflow-x-hidden">
       <FloatingElements />
-      <Firecrackers active={isRevealed} />
+      <Firecrackers active={isBlownOut} />
 
       {/* Luxury Border Frame */}
       <div className="fixed inset-4 border-2 border-primary/20 pointer-events-none z-50 rounded-3xl" />
@@ -89,19 +110,21 @@ export default function BirthdayPage() {
                 May the year ahead bring you success, joy, and beautiful memories. 
                 Wishing you a truly wonderful birthday."
               </p>
-              <div className="flex items-center justify-center gap-4">
-                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary/50" />
-                <p className="text-sm tracking-[0.3em] uppercase text-muted-foreground/60">
-                  Scratch below for a surprise
-                </p>
-                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-primary/50" />
-              </div>
+              {!isRevealed && (
+                <div className="flex items-center justify-center gap-4">
+                  <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary/50" />
+                  <p className="text-sm tracking-[0.3em] uppercase text-muted-foreground/60">
+                    Scratch below for a surprise
+                  </p>
+                  <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-primary/50" />
+                </div>
+              )}
             </div>
           </div>
         </section>
 
         {/* Scratch Card Section */}
-        <section className="w-full flex flex-col items-center gap-12">
+        <section className="w-full flex flex-col items-center gap-24">
           <div className="relative w-full max-w-md">
             <ScratchCard 
               onReveal={handleReveal}
@@ -110,17 +133,22 @@ export default function BirthdayPage() {
             />
             
             {/* Surprise Overlay Text */}
-            {isRevealed && (
+            {isBlownOut && (
               <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none z-20">
-                <h2 className="text-4xl md:text-5xl font-display font-bold gold-shimmer animate-surprise gold-text-glow">
-                  🎉 Surprise! Happy Birthday! 🎂
+                <h2 className="text-2xl md:text-4xl font-display font-bold gold-shimmer animate-surprise gold-text-glow px-4 leading-tight">
+                  🎉 Happy Birthday! Your Wish Has Been Unlocked! 🎉
                 </h2>
               </div>
             )}
           </div>
           
-          <div className={`transition-all duration-1000 ${isRevealed ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}`}>
-            <BirthdayCake isLit={isRevealed} />
+          <div className={`transition-all duration-1000 ${isRevealed ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'}`}>
+            <BirthdayCake 
+              isLit={isRevealed} 
+              onBlownOut={handleBlownOut} 
+              isBlownOut={isBlownOut}
+              onReset={handleReset}
+            />
           </div>
 
           {/* Final Call to Action Button */}
