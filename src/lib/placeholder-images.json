@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-celebration",
+      "description": "Elegant birthday celebration background",
+      "imageUrl": "https://picsum.photos/seed/natal1/1200/800",
+      "imageHint": "birthday celebration"
+    },
+    {
+      "id": "gift-box",
+      "description": "Minimalist gift box",
+      "imageUrl": "https://picsum.photos/seed/natal2/400/400",
+      "imageHint": "gift box"
+    }
+  ]
 }
