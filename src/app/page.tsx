@@ -129,11 +129,11 @@ export default function BirthdayPage() {
         <footer className="pt-20 pb-10 text-center">
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3 text-primary">
-              <Heart className="w-6 h-6 fill-primary animate-pulse" />
+              <Sparkles className="w-6 h-6 fill-primary animate-pulse" />
               <span className="font-headline text-xl italic tracking-widest gold-text-glow">
-                Made with ❤️ for Pooja
+                Created and Designed by Manish
               </span>
-              <Heart className="w-6 h-6 fill-primary animate-pulse" />
+              <Sparkles className="w-6 h-6 fill-primary animate-pulse" />
             </div>
             <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground opacity-40">
               © 2025 Premium Natal Celebrations • Luxury Edition
