@@ -128,8 +128,8 @@ export function ScratchCard({ onReveal, message, name }: ScratchCardProps) {
             </p>
             {name && (
               <div className="pt-2">
-                <p className="text-5xl md:text-6xl font-cursive text-primary gold-text-glow animate-fade-in px-4">
-                  {name}
+                <p className="text-4xl md:text-5xl font-cursive text-primary gold-text-glow animate-fade-in px-4 leading-tight">
+                  Happy Birthday {name}
                 </p>
               </div>
             )}

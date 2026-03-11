@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef } from 'react';
@@ -93,7 +94,7 @@ export default function BirthdayPage() {
           <div className="relative w-full max-w-md">
             <ScratchCard 
               onReveal={handleReveal}
-              message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday,"
+              message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy."
               name="Pooja"
             />
             
