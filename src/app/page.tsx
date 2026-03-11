@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { ScratchCard } from '@/components/birthday/ScratchCard';
 import { FloatingElements } from '@/components/birthday/FloatingElements';
 import { BirthdayCake } from '@/components/birthday/BirthdayCake';
@@ -83,7 +82,7 @@ export default function BirthdayPage() {
         </section>
 
         {/* Interactive Content Section */}
-        <section className="w-full flex flex-col items-center gap-32 md:gap-40">
+        <section className="w-full flex flex-col items-center gap-48 md:gap-64">
           {/* Scratch Card Area */}
           <div className="relative w-full max-w-md">
             <ScratchCard 
