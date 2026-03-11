@@ -59,7 +59,6 @@ export default function BirthdayPage() {
         
         {/* Hero Section */}
         <section className="text-center space-y-10 animate-fade-in relative">
-          {/* Light Rays Background */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square light-rays opacity-30 pointer-events-none z-[-1]" />
           
           <div className="space-y-4">
@@ -72,7 +71,6 @@ export default function BirthdayPage() {
               <h1 className="text-7xl md:text-9xl font-headline font-black gold-3d-text leading-[1.1] gold-shimmer pb-4">
                 Happy Birthday
               </h1>
-              {/* Floating gold particles around heading */}
               <div className="absolute -top-4 -left-4 animate-sparkle text-primary opacity-50"><Sparkles size={24} /></div>
               <div className="absolute -bottom-4 -right-4 animate-sparkle text-primary opacity-50 delay-700"><Sparkles size={20} /></div>
             </div>
@@ -98,7 +96,8 @@ export default function BirthdayPage() {
         <section className="w-full flex flex-col items-center gap-12">
           <ScratchCard 
             onReveal={handleReveal}
-            message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday!"
+            message="Wishing you a day filled with love, laughter, happiness, and unforgettable memories. May this year bring you success and endless joy. Happy Birthday,"
+            name="Pooja"
           />
           
           <div className={`transition-all duration-1000 ${isRevealed ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}`}>
@@ -123,7 +122,6 @@ export default function BirthdayPage() {
         </footer>
       </main>
 
-      {/* Decorative Background Glows */}
       <div className="fixed top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-accent/5 blur-[150px] rounded-full pointer-events-none" />
     </div>

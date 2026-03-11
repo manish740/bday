@@ -14,6 +14,7 @@ export default {
         body: ['Alegreya', 'serif'],
         headline: ['Belleza', 'sans-serif'],
         display: ['Cinzel', 'serif'],
+        cursive: ['Alex Brush', 'cursive'],
         code: ['monospace'],
       },
       colors: {

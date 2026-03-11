@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -6,9 +7,10 @@ import { Sparkles } from 'lucide-react';
 interface ScratchCardProps {
   onReveal: () => void;
   message: string;
+  name?: string;
 }
 
-export function ScratchCard({ onReveal, message }: ScratchCardProps) {
+export function ScratchCard({ onReveal, message, name }: ScratchCardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isRevealed, setIsRevealed] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -20,7 +22,6 @@ export function ScratchCard({ onReveal, message }: ScratchCardProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas dimensions
     const updateSize = () => {
       const rect = canvas.parentElement?.getBoundingClientRect();
       if (rect) {
@@ -31,7 +32,6 @@ export function ScratchCard({ onReveal, message }: ScratchCardProps) {
     };
 
     const fillCanvas = () => {
-      // Golden Glitter Pattern
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
       gradient.addColorStop(0, '#D4AF37');
       gradient.addColorStop(0.5, '#F9EDF1');
@@ -40,7 +40,6 @@ export function ScratchCard({ onReveal, message }: ScratchCardProps) {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Add "glitter" effect
       for (let i = 0; i < 1000; i++) {
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.3})`;
         ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 1, 1);
@@ -110,7 +109,6 @@ export function ScratchCard({ onReveal, message }: ScratchCardProps) {
     if (percent > 60 && !isRevealed) {
       setIsRevealed(true);
       onReveal();
-      // Fade out canvas
       canvas.style.transition = 'opacity 1s ease';
       canvas.style.opacity = '0';
       setTimeout(() => {
@@ -121,17 +119,24 @@ export function ScratchCard({ onReveal, message }: ScratchCardProps) {
 
   return (
     <div className="relative w-full max-w-md aspect-[4/3] luxury-border rounded-3xl overflow-hidden gold-glow group">
-      {/* Hidden Message */}
       <div className="absolute inset-0 flex items-center justify-center p-8 bg-card text-center overflow-auto">
         <div className="space-y-4">
           <Sparkles className="w-8 h-8 text-primary mx-auto animate-sparkle" />
-          <p className="text-xl md:text-2xl font-body italic leading-relaxed text-foreground">
-            {message}
-          </p>
+          <div className="space-y-3">
+            <p className="text-xl md:text-2xl font-body italic leading-relaxed text-foreground">
+              {message}
+            </p>
+            {name && (
+              <div className="pt-2">
+                <p className="text-5xl md:text-6xl font-cursive text-primary gold-text-glow animate-fade-in px-4">
+                  {name}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Scratch Layer */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 cursor-crosshair touch-none z-10"
