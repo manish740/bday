@@ -89,7 +89,7 @@ export default function BirthdayPage() {
         </section>
 
         {/* Scratch Card Section */}
-        <section className="w-full flex flex-col items-center gap-24">
+        <section className="w-full flex flex-col items-center gap-32 md:gap-40">
           <div className="relative w-full max-w-md">
             <ScratchCard 
               onReveal={handleReveal}
