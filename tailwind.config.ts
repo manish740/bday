@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         body: ['Alegreya', 'serif'],
         headline: ['Belleza', 'sans-serif'],
+        display: ['Cinzel', 'serif'],
         code: ['monospace'],
       },
       colors: {

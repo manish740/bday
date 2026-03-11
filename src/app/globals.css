@@ -5,21 +5,21 @@
 
 @layer base {
   :root {
-    /* Luxury Dark Theme */
-    --background: 288 40% 4%;
+    /* Luxury Wine & Gold Theme */
+    --background: 350 100% 6%;
     --foreground: 45 30% 90%;
-    --card: 288 40% 6%;
+    --card: 350 80% 8%;
     --card-foreground: 45 30% 90%;
-    --popover: 288 40% 6%;
+    --popover: 350 80% 8%;
     --popover-foreground: 45 30% 90%;
     --primary: 45 60% 50%; /* Golden */
-    --primary-foreground: 288 40% 5%;
-    --secondary: 288 30% 12%;
+    --primary-foreground: 350 100% 5%;
+    --secondary: 350 40% 12%;
     --secondary-foreground: 45 60% 70%;
-    --muted: 288 20% 15%;
+    --muted: 350 30% 15%;
     --muted-foreground: 45 20% 60%;
     --accent: 45 60% 50%;
-    --accent-foreground: 288 40% 5%;
+    --accent-foreground: 350 100% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 45 30% 20%;
@@ -36,8 +36,8 @@
   body {
     @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
     background-image: 
-      radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(109, 38, 128, 0.1) 0%, transparent 40%);
+      radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 20% 50%, rgba(128, 0, 32, 0.4) 0%, transparent 60%);
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
@@ -45,17 +45,78 @@
 }
 
 @layer utilities {
+  .gold-3d-text {
+    @apply font-display;
+    background: linear-gradient(
+      to bottom,
+      #f9f295 0%,
+      #e0aa3e 25%,
+      #f9f295 50%,
+      #b8860b 75%,
+      #f9f295 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.5));
+    text-shadow: 
+      1px 1px 0px #b8860b,
+      2px 2px 0px #996515,
+      3px 3px 0px #7d5410,
+      4px 4px 0px #5c3e0c;
+  }
+
+  .gold-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gold-shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    transform: skewX(-25deg);
+    animation: shimmer-swipe 4s infinite linear;
+  }
+
   .gold-glow {
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
   }
+
   .gold-text-glow {
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
   }
+
   .luxury-border {
     border: 2px solid transparent;
     background: linear-gradient(var(--card), var(--card)) padding-box,
                 linear-gradient(to right, #D4AF37, #F9EDF1, #D4AF37) border-box;
   }
+
+  .light-rays {
+    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    mask-image: repeating-conic-gradient(from 0deg, white 0deg 10deg, transparent 10deg 20deg);
+    animation: rotate-rays 60s linear infinite;
+  }
+}
+
+@keyframes shimmer-swipe {
+  0% { left: -150%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+@keyframes rotate-rays {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes float {
