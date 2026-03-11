@@ -130,7 +130,7 @@ export default function BirthdayPage() {
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3 text-primary">
               <Sparkles className="w-6 h-6 fill-primary animate-pulse" />
-              <span className="font-headline text-xl italic tracking-widest gold-text-glow">
+              <span className="font-cursive text-3xl italic tracking-wide gold-text-glow">
                 Created and Designed by Manish
               </span>
               <Sparkles className="w-6 h-6 fill-primary animate-pulse" />
